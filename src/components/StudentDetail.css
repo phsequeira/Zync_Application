@@ -1,0 +1,11 @@
+.li {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+.email {
+    margin-left: 10px;
+}
