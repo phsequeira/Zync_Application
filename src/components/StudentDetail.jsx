@@ -8,7 +8,7 @@ function StudentDetail({ id, pic, firstName, lastName, email, company, skill, gr
 
     var results = grades.map(Number)
 
-    console.log("grades", results);
+    //console.log("grades", results);
     return (
         <>
         <div className={styles.li}>
