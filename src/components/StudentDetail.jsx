@@ -1,19 +1,25 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types';
 import './StudentDetail.css';
 
 
-
-function StudentDetail({ index, id, pic, firstName, lastName, email, company, skill, grades, handleTag}) {
+function StudentDetail({ student, handleTag, index}) {
 
     const [open, setOpen] = useState(true);
-    const toggle = () => setOpen(!open);
-    const [tagArray, setTagArray] = useState([])
+    const [toggleButton, setButton] = useState('+')
+    
+    const toggle = () => {
+        setOpen(!open)
+        if(toggleButton === '+') {
+            setButton('-')
+        } 
+        if(toggleButton === '-') {
+            setButton('+')
+        }
+    };
 
     const addTag = e => {
         if (e.key === 'Enter' && e.target.value !== '') {
             let value = e.target.value
-            setTagArray([...tagArray, e.target.value])
             handleTag(index, value)
             e.target.value = '';
         }
@@ -21,36 +27,35 @@ function StudentDetail({ index, id, pic, firstName, lastName, email, company, sk
 
     const average = (array) => array.reduce((a, b) => a + b) / array.length;
 
-    var results = grades.map(Number)
+    var results = student.grades.map(Number)
+    
 
     return (
         <>
         <div className='li'>
-            <img className='img'  alt={id} src={pic}></img>
-            <button onClick={toggle} className='togleButton'>+</button>
+            <img className='img'  alt={student.id} src={student.pic}></img>
+            <button onClick={toggle} className='togleButton'>{toggleButton}</button>
             <div className="info">
-                <h1 className='name'>{firstName} {lastName}</h1>
-                <p className='email'>Email: {email}</p>
-                <p className='company'>Company: {company}</p>
-                <p className='skill'>Skill: {skill}</p>
+                <h1 className='name'>{student.firstName} {student.lastName}</h1>
+                <p className='email'>Email: {student.email}</p>
+                <p className='company'>Company: {student.company}</p>
+                <p className='skill'>Skill: {student.skill}</p>
                 <p className='average'>Average: {average(results)}%</p>
             </div>
                 <div className='toggle' hidden={open}>
-                    <p className='grades'>Test 1: {grades[0]}%</p>
-                    <p className='grades'>Test 2: {grades[1]}%</p>
-                    <p className='grades'>Test 3: {grades[2]}%</p>
-                    <p className='grades'>Test 4: {grades[3]}%</p>
-                    <p className='grades'>Test 5: {grades[4]}%</p>
-                    <p className='grades'>Test 6: {grades[5]}%</p>
-                    <p className='grades'>Test 7: {grades[6]}%</p>
-                    <p className='grades'>Test 8: {grades[7]}%</p>
+                    <p className='grades'>Test 1: {student.grades[0]}%</p>
+                    <p className='grades'>Test 2: {student.grades[1]}%</p>
+                    <p className='grades'>Test 3: {student.grades[2]}%</p>
+                    <p className='grades'>Test 4: {student.grades[3]}%</p>
+                    <p className='grades'>Test 5: {student.grades[4]}%</p>
+                    <p className='grades'>Test 6: {student.grades[5]}%</p>
+                    <p className='grades'>Test 7: {student.grades[6]}%</p>
+                    <p className='grades'>Test 8: {student.grades[7]}%</p>
                 </div>
-            
-
             <div className='tag'>
                 <br />
                 <ul>
-                    {tagArray?.map((tag, index) => (
+                    {student.tags?.map((tag, index) => (
                         <li key={index} className='tagLI'>
                             <span className='tagName'>{tag}</span>
                         </li>
@@ -67,18 +72,6 @@ function StudentDetail({ index, id, pic, firstName, lastName, email, company, sk
         </>
     )
 };
-
-StudentDetail.propTypes ={
-    id: PropTypes.string.isRequired,
-    pic: PropTypes.string.isRequired,
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    company: PropTypes.string.isRequired,
-    skill: PropTypes.string.isRequired,
-    grades: PropTypes.array.isRequired
-};
-
 
 
 export default StudentDetail;

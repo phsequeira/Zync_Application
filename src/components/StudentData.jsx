@@ -8,30 +8,51 @@ function StudentData() {
     const [studentData, setStudentData] = useState([]);
     const [studentSearch, setStudentSearch] = useState('');
     const [tagSearch, setTagSearch] = useState('');
-    const [filterStudents, setFilterStudents] = useState([]);
-    
-   
 
     const displayData = async () => {
         const data = await getData()
         setStudentData(data.students)
-        setFilterStudents(data.students)
     }
 
     useEffect(() => {
         displayData();
     }, []); 
 
+    
+    const handleSearch = (students) => {
+        
+        if (tagSearch !== '' && studentSearch !== '') {  
+            return students.filter((student) =>
+            [student.firstName, student.lastName, `${student.firstName} ${student.lastName}`].some(search => search.toLowerCase().includes(studentSearch.toLowerCase()))).filter(student => {
+                if (student.tags && tagSearch !== '') {
+                    for (let i = 0; i < student.tags.length; i++) {
+                        if(student.tags[i].toLowerCase().includes(tagSearch.toLowerCase())) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            })
 
-    const searchStudents = (students) => {
-        return students.filter((student) =>
-        [student.firstName, student.lastName, `${student.firstName} ${student.lastName}`].some(search => search.toLowerCase().includes(studentSearch.toLowerCase())))
-    };
-    const searchTag = (students) => {
-        for (let i = 0; i < students.tags; i++) {
-            if (students[i].tags.toLowerCase().includes(searchTag.toLowerCase()))
-            return true
         }
+        if (tagSearch !== '') {
+            return students.filter((student) =>{
+                if (student.tags && tagSearch !== '') {
+                    for (let i = 0; i < student.tags.length; i++) {
+                        if(student.tags[i].toLowerCase().includes(tagSearch.toLowerCase())) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            })
+        }
+
+        if (studentSearch !== '') {
+            return students.filter((student) =>
+            [student.firstName, student.lastName, `${student.firstName} ${student.lastName}`].some(search => search.toLowerCase().includes(studentSearch.toLowerCase())))
+        }
+        return studentData
     }
 
     const handleTag = (index, tag) => {
@@ -44,7 +65,9 @@ function StudentData() {
         setStudentData(data)   
     }
 
-    console.log(studentData);
+    useEffect(() => {
+        setStudentData(studentData)
+    }, [studentData])
 
     return (
         <div className="background">
@@ -63,9 +86,9 @@ function StudentData() {
                     value={tagSearch}
                     onChange={(e) => setTagSearch(e.target.value)} />
                 <ul className='studentUL'>
-                    {filterStudents && searchStudents(studentData).map((student, index) => (
+                    {studentData && handleSearch(studentData).map((student, index) => (
                     <li key={student.id} className='studentLI'>
-                        <StudentDetail {...student} tags={student?.tags} index={index} handleTag={handleTag}/>
+                        <StudentDetail student={student} tags={student?.tags} index={index} handleTag={handleTag}/>
                     </li>
 
                     ))}

@@ -13,11 +13,15 @@
 .togleButton {
     float: right;
     margin-right: 1rem;
+    font-family: 'Rubik', sans-serif;
+    font-size: xx-large;
+    border: none;
+    background-color: white;
 }
 .name {
     text-transform: uppercase;
     font-weight: 700; 
-    font-size: 2rem; 
+    font-size: 1.8rem; 
     line-height: 5px;
 }
 .email {
