@@ -1,63 +1,68 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types';
-import styles from './StudentDetail.css';
+import './StudentDetail.css';
 
 
-function StudentDetail({ id, pic, firstName, lastName, email, company, skill, grades}) {
+function StudentDetail({ student, handleTag, index}) {
 
     const [open, setOpen] = useState(true);
-    const toggle = () => setOpen(!open);
-
-    const [tags, setTags] = useState([]);
+    const [toggleButton, setButton] = useState('+')
+    
+    const toggle = () => {
+        setOpen(!open)
+        if(toggleButton === '+') {
+            setButton('-')
+        } 
+        if(toggleButton === '-') {
+            setButton('+')
+        }
+    };
 
     const addTag = e => {
         if (e.key === 'Enter' && e.target.value !== '') {
-            setTags([...tags, e.target.value]);
+            let value = e.target.value
+            handleTag(index, value)
             e.target.value = '';
         }
-    }
-
-    const removeTags = indexToRemove => {
-		setTags([...tags.filter((_, index) => index !== indexToRemove)]);
-	};
+    };
 
     const average = (array) => array.reduce((a, b) => a + b) / array.length;
 
-    var results = grades.map(Number)
+    var results = student.grades.map(Number)
+    
 
-    //console.log("is open", open);
     return (
         <>
-        <div className={styles.li}>
-            <img className={styles.img}  alt={id} src={pic}></img>
-            <h1 className={styles.name}>{firstName} {lastName}</h1>
-            <p className={styles.email}>Email: {email}</p>
-            <p className={styles.company}>Company: {company}</p>
-            <p className={styles.skill}>Skill: {skill}</p>
-            <p className={styles.average}>Average: {average(results)}%</p>
-                <div className={styles.toggle} hidden={open}>
-                    <p className={styles.grades}>Test 1: {grades[0]}%</p>
-                    <p className={styles.grades}>Test 2: {grades[1]}%</p>
-                    <p className={styles.grades}>Test 3: {grades[2]}%</p>
-                    <p className={styles.grades}>Test 4: {grades[3]}%</p>
-                    <p className={styles.grades}>Test 5: {grades[4]}%</p>
-                    <p className={styles.grades}>Test 6: {grades[5]}%</p>
-                    <p className={styles.grades}>Test 7: {grades[6]}%</p>
-                    <p className={styles.grades}>Test 8: {grades[7]}%</p>
+        <div className='li'>
+            <img className='img'  alt={student.id} src={student.pic}></img>
+            <button onClick={toggle} className='togleButton'>{toggleButton}</button>
+            <div className="info">
+                <h1 className='name'>{student.firstName} {student.lastName}</h1>
+                <p className='email'>Email: {student.email}</p>
+                <p className='company'>Company: {student.company}</p>
+                <p className='skill'>Skill: {student.skill}</p>
+                <p className='average'>Average: {average(results)}%</p>
+            </div>
+                <div className='toggle' hidden={open}>
+                    <p className='grades'>Test 1: {student.grades[0]}%</p>
+                    <p className='grades'>Test 2: {student.grades[1]}%</p>
+                    <p className='grades'>Test 3: {student.grades[2]}%</p>
+                    <p className='grades'>Test 4: {student.grades[3]}%</p>
+                    <p className='grades'>Test 5: {student.grades[4]}%</p>
+                    <p className='grades'>Test 6: {student.grades[5]}%</p>
+                    <p className='grades'>Test 7: {student.grades[6]}%</p>
+                    <p className='grades'>Test 8: {student.grades[7]}%</p>
                 </div>
-            <button onClick={toggle} className={styles.togleButton}>open</button>
-
-            <div className={styles.tag}>
+            <div className='tag'>
+                <br />
                 <ul>
-                    {tags.map((tag, index) => (
-                        <li key={index} className={styles.tagLI}>
-                            <span className={styles.tagName}>{tag}</span>
-                            <span className={styles.removeTag} onClick={() => removeTags(index)}>CliCK THIS TO CLOSRE</span>
+                    {student.tags?.map((tag, index) => (
+                        <li key={index} className='tagLI'>
+                            <span className='tagName'>{tag}</span>
                         </li>
                     ))}
                 </ul>
                 <input
-                    className={styles.tagInput}
+                    className='tagInput'
                     type='text'
                     onKeyUp={e => e.key === 'Enter' ? addTag(e) : null}
                     placeholder="Add Tag"
@@ -67,18 +72,6 @@ function StudentDetail({ id, pic, firstName, lastName, email, company, skill, gr
         </>
     )
 };
-
-StudentDetail.propTypes ={
-    id: PropTypes.string.isRequired,
-    pic: PropTypes.string.isRequired,
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    company: PropTypes.string.isRequired,
-    skill: PropTypes.string.isRequired,
-    grades: PropTypes.array.isRequired
-};
-
 
 
 export default StudentDetail;

@@ -1,11 +1,66 @@
 .li {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
+    border-bottom: solid #e0e0e0 1px;
+}
+.img {
+    border-radius: 50%;
+    border: solid #e0e0e0 1px;
+    width: 7rem;
+    height: 7rem;
+    margin-top: 0.3rem;
+    margin-right: 2rem;
+    float: left;
+}
+.togleButton {
+    float: right;
+    margin-right: 1rem;
+    font-family: 'Rubik', sans-serif;
+    font-size: xx-large;
+    border: none;
+    background-color: white;
+}
+.name {
+    text-transform: uppercase;
+    font-weight: 700; 
+    font-size: 1.8rem; 
+    line-height: 5px;
 }
 .email {
-    margin-left: 10px;
+    line-height: 5px;
+}
+.company {
+    line-height: 5px;
+}
+.skill {
+    line-height: 5px;
+}
+.average {
+    line-height: 5px;
+    margin-left: 9rem;
+}
+.grades {
+    margin-left: 9rem;
+    line-height: 2px;
+}
+.tag {
+    margin-left: 5.5rem;
+}
+.tagLI {
+    list-style: none;
+    margin-left: 1rem;
+    display: inline-block;
+}
+.tagName {
+    background-color: rgb(204, 200, 196);
+    border-radius: 2px;
+    padding-left: 3px;
+    padding-right: 3px;
+    
+}
+.tagInput {
+    margin-left: 3.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border-top: none;
+    border-right: none;
+    border-left: none;
 }
